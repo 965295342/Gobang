@@ -6,12 +6,6 @@ import (
 	"time"
 )
 
-type Message struct {
-	id       int32
-	arrayInt []int32
-	words    string
-}
-
 // Session struct
 type Session struct {
 	sID      string

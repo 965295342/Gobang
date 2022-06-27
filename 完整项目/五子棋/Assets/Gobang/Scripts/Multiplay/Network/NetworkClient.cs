@@ -131,7 +131,7 @@ public static class NetworkClient
 
         _curState = ClientState.Connected;
         _messages = new Queue<byte[]>();
-        Info.Instance.Print("连接服务器成功");
+        Info.Instance.Print("连接服务器成功卧槽");
 
         //设置异步发送消息
         NetworkCoroutine.Instance.StartCoroutine(_Send());
@@ -166,7 +166,7 @@ public static class NetworkClient
                 }
                 _timer = 0;
                 //封装消息
-                byte[] data = _Pack(MessageType.HeartBeat);
+                byte[] data = _Pack(MessageType.EnumHeartBeat);
                 //发送消息
                 yield return _Write(data);
 
@@ -346,12 +346,12 @@ public static class NetworkClient
     public static void Enqueue(MessageType type, byte[] data = null)
     {
         //把数据进行封装
-        byte[] bytes = _Pack(type, data);
+        //byte[] bytes = _Pack(type, data);
 
         if (_curState == ClientState.Connected)
         {
             //加入队列                                 
-            _messages.Enqueue(bytes);
+            _messages.Enqueue(data);
         }
     }
 

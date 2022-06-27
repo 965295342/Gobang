@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Multiplay;
+using Assets.Gobang.Scripts.Multiplay.Network;
 
 public class Network : MonoBehaviour
 {
@@ -13,8 +14,11 @@ public class Network : MonoBehaviour
     {
         Enroll request = new Enroll();
         request.Name = name;
-        byte[] data = NetworkUtils.Serialize(request);
-        NetworkClient.Enqueue(MessageType.Enroll, data);
+        NormalMessage msg = new NormalMessage();
+        msg.STRING = name;
+        //byte[] data = NetworkUtils.Serialize(request);
+        byte[] data = ProtoBuffer.Serialize(msg);
+        NetworkClient.Enqueue(MessageType.EnumEnroll, data);
     }
 
     /// <summary>
@@ -24,8 +28,10 @@ public class Network : MonoBehaviour
     {
         CreatRoom request = new CreatRoom();
         request.RoomId = roomId;
-        byte[] data = NetworkUtils.Serialize(request);
-        NetworkClient.Enqueue(MessageType.CreatRoom, data);
+        NormalMessage msg = new NormalMessage();
+        msg.INT32 = roomId;
+        byte[] data = ProtoBuffer.Serialize(msg);
+        NetworkClient.Enqueue(MessageType.EnumCreatRoom, data);
     }
 
     /// <summary>
@@ -35,8 +41,10 @@ public class Network : MonoBehaviour
     {
         EnterRoom request = new EnterRoom();
         request.RoomId = roomId;
-        byte[] data = NetworkUtils.Serialize(request);
-        NetworkClient.Enqueue(MessageType.EnterRoom, data);
+        NormalMessage msg = new NormalMessage();
+        msg.INT32 = roomId;
+        byte[] data = ProtoBuffer.Serialize(msg);
+        NetworkClient.Enqueue(MessageType.EnumEnterRoom, data);
     }
 
     /// <summary>
@@ -46,8 +54,10 @@ public class Network : MonoBehaviour
     {
         ExitRoom request = new ExitRoom();
         request.RoomId = roomId;
-        byte[] data = NetworkUtils.Serialize(request);
-        NetworkClient.Enqueue(MessageType.ExitRoom, data);
+        NormalMessage msg = new NormalMessage();
+        msg.INT32 = roomId;
+        byte[] data = ProtoBuffer.Serialize(msg);
+        NetworkClient.Enqueue(MessageType.EnumExitRoom, data);
     }
 
     /// <summary>
@@ -57,8 +67,10 @@ public class Network : MonoBehaviour
     {
         StartGame request = new StartGame();
         request.RoomId = roomId;
-        byte[] data = NetworkUtils.Serialize(request);
-        NetworkClient.Enqueue(MessageType.StartGame, data);
+        NormalMessage msg = new NormalMessage();
+        msg.INT32 = roomId;
+        byte[] data = ProtoBuffer.Serialize(msg);
+        NetworkClient.Enqueue(MessageType.EnumStartGame, data);
     }
 
     /// <summary>
@@ -76,21 +88,21 @@ public class Network : MonoBehaviour
         request.Chess = NetworkPlayer.Instance.Chess;
         request.X = pos.X;
         request.Y = pos.Y;
-        byte[] data = NetworkUtils.Serialize(request);
-        NetworkClient.Enqueue(MessageType.PlayChess, data);
+        byte[] data = ProtoBuffer.Serialize(request);
+        NetworkClient.Enqueue(MessageType.EnumPlayChess, data);
     }
 
     private void Start()
     {
         if (Instance == null)
             Instance = this;
-        NetworkClient.Register(MessageType.HeartBeat, _Heartbeat);
-        NetworkClient.Register(MessageType.Enroll, _Enroll);
-        NetworkClient.Register(MessageType.CreatRoom, _CreatRoom);
-        NetworkClient.Register(MessageType.EnterRoom, _EnterRoom);
-        NetworkClient.Register(MessageType.ExitRoom, _ExitRoom);
-        NetworkClient.Register(MessageType.StartGame, _StartGame);
-        NetworkClient.Register(MessageType.PlayChess, _PlayChess);
+        NetworkClient.Register(MessageType.EnumHeartBeat, _Heartbeat);
+        NetworkClient.Register(MessageType.EnumEnroll, _Enroll);
+        NetworkClient.Register(MessageType.EnumCreatRoom, _CreatRoom);
+        NetworkClient.Register(MessageType.EnumEnterRoom, _EnterRoom);
+        NetworkClient.Register(MessageType.EnumExitRoom, _ExitRoom);
+        NetworkClient.Register(MessageType.EnumStartGame, _StartGame);
+        NetworkClient.Register(MessageType.EnumPlayChess, _PlayChess);
     }
 
     #region 发送消息回调事件
@@ -103,7 +115,8 @@ public class Network : MonoBehaviour
 
     private void _Enroll(byte[] data)
     {
-        Enroll result = NetworkUtils.Deserialize<Enroll>(data);
+        //Enroll result = NetworkUtils.Deserialize<Enroll>(data);
+        Enroll result = ProtoBuffer.DeSerialize<Enroll>(data);
         if (result.Suc)
         {
             NetworkPlayer.Instance.OnNameChange(result.Name);
@@ -118,7 +131,7 @@ public class Network : MonoBehaviour
 
     private void _CreatRoom(byte[] data)
     {
-        CreatRoom result = NetworkUtils.Deserialize<CreatRoom>(data);
+        CreatRoom result = ProtoBuffer.DeSerialize<CreatRoom>(data);
 
         if (result.Suc)
         {
@@ -134,13 +147,13 @@ public class Network : MonoBehaviour
 
     private void _EnterRoom(byte[] data)
     {
-        EnterRoom result = NetworkUtils.Deserialize<EnterRoom>(data);
+        EnterRoom result = ProtoBuffer.DeSerialize<EnterRoom>(data);
 
-        if (result.result == EnterRoom.Result.Player)
+        if (result.Result == EnterRoom.Types.Result.Player)
         {
             Info.Instance.Print("加入房间成功, 你是一名玩家");
         }
-        else if (result.result == EnterRoom.Result.Observer)
+        else if (result.Result == EnterRoom.Types.Result.Observer)
         {
             Info.Instance.Print("加入房间成功, 你是一名观察者");
         }
@@ -156,7 +169,7 @@ public class Network : MonoBehaviour
 
     private void _ExitRoom(byte[] data)
     {
-        ExitRoom result = NetworkUtils.Deserialize<ExitRoom>(data);
+        ExitRoom result = ProtoBuffer.DeSerialize<ExitRoom>(data);
 
         if (result.Suc)
         {
@@ -175,7 +188,7 @@ public class Network : MonoBehaviour
 
     private void _StartGame(byte[] data)
     {
-        StartGame result = NetworkUtils.Deserialize<StartGame>(data);
+        StartGame result = ProtoBuffer.DeSerialize<StartGame>(data);
 
         if (result.Suc)
         {
@@ -205,7 +218,7 @@ public class Network : MonoBehaviour
 
     private void _PlayChess(byte[] data)
     {
-        PlayChess result = NetworkUtils.Deserialize<PlayChess>(data);
+        PlayChess result = ProtoBuffer.DeSerialize<PlayChess>(data);
 
         if (!result.Suc)
         {

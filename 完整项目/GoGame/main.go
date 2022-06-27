@@ -9,6 +9,7 @@ import (
 	"net"
 
 	gophp "github.com/techoner/gophp"
+	"google.golang.org/protobuf/proto"
 )
 
 func main() {
@@ -25,13 +26,13 @@ func main() {
 	}
 
 	for {
-		//等待客户的连�?
+		//等待客户的连接?
 		conn, err := SocketService.Listener.Accept()
 		//如果有错�?直接跳过
 		if err != nil {
 			continue
 		}
-		//通过goroutine来�?�理用户的�?�求
+		//通过goroutine协程处理连接
 		go clientHandle(conn)
 	}
 
@@ -47,9 +48,14 @@ func clientHandle(conn net.Conn) {
 			return
 		}
 		rAddr := conn.RemoteAddr()
-		msg := string(buf[0:n])
-		fmt.Println("Receive from client", rAddr.String(), msg)
 
+		test := def.NormalMessage{}
+		msg := proto.Unmarshal(buf, &test)
+		fmt.Println("Receive from client", rAddr.String(), test, n)
+
+		if msg != nil {
+			fmt.Println(msg)
+		}
 		out, _ := gophp.Unserialize([]byte(buf))
 		fmt.Println("Receive from client", rAddr.String(), out)
 		// var m Msg
