@@ -38,9 +38,6 @@ const (
 	CREATE_ROOM int32 = 1 //开房
 )
 
-type Player struct {
-}
-
 const (
 	// STUnknown Unknown
 	STUnknown = iota
@@ -51,3 +48,5 @@ const (
 	// STStop Stop
 	STStop
 )
+
+var MYIP string

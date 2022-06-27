@@ -10,6 +10,10 @@ import (
 
 var CallBackMap map[int32]func(*def.Message)
 
+type Player struct {
+	id int32
+}
+
 func init() {
 	CallBackMap = make(map[int32]func(*def.Message))
 	if CallBackMap == nil {
@@ -45,3 +49,27 @@ func NewSocketService() (*def.SocketService, error) {
 
 	return s, nil
 }
+
+func Send(MessageType int32, data []byte) {
+	var host string = ":8848"
+	conn, err := net.Dial("tcp", def.MYIP+host)
+	if err != nil {
+		fmt.Errorf("连接失败:", err)
+	}
+
+	n, err := conn.Write(data)
+	if err != nil {
+		fmt.Println("发送数据失败")
+		return
+	}
+	fmt.Printf("一共发送了%d个字节的数据\n", n)
+}
+
+// buf := bytes.Buffer{}
+// encoder := gob.NewEncoder(&buf)
+
+// err := encoder.Encode(p)
+// if err != nil {
+// 	fmt.Println("编码失败,错误原因: ", err)
+// 	return
+// }
