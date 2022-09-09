@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using UnityEngine;
 using Multiplay;
-
+using Assets.Gobang.Scripts.Multiplay.Network;
 /// <summary>
 /// 回调委托
 /// </summary>
@@ -16,6 +16,7 @@ public delegate void CallBack(byte[] data);
 /// <summary>
 /// <see langword="static"/>
 /// </summary>
+/// 
 public static class NetworkClient
 {
     private class NetworkCoroutine : MonoBehaviour
@@ -69,7 +70,7 @@ public static class NetworkClient
         None,        //未连接
         Connected,   //连接成功
     }
-
+   
     //消息类型与回调字典
     private static Dictionary<MessageType, CallBack> _callBacks = new Dictionary<MessageType, CallBack>();
     //待发送消息队列
@@ -80,11 +81,15 @@ public static class NetworkClient
     private static TcpClient _client;
     //在网络通讯流中读写数据
     private static NetworkStream _stream;
+    private static StreamReader sr;
 
+    private static Socket m_socket;
     //目标ip
     private static IPAddress _address;
     //端口号
     private static int _port;
+
+    private static bool m_isConnected;
 
     //心跳包机制
     private const float HEARTBEAT_TIME = 3;         //心跳包发送间隔时间
@@ -94,12 +99,33 @@ public static class NetworkClient
     private static IEnumerator _Connect()
     {
         _client = new TcpClient();
+        //m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        //_client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        //if (m_socket == null)
+        //{
+        //    m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        //}
+
+        //if (!m_isConnected)
+        //{
+        //    IAsyncResult result = m_socket.BeginConnect(_address, _port+1, null, m_socket);
+        //    while (!result.IsCompleted)
+        //    {
+        //        Debug.Log("连接服务器中1");
+        //        yield return null;
+        //    }
+        //    m_isConnected = true;
+        //    Info.Instance.Print("已经连接上服务器");
+        //}
 
         //异步连接
+
         IAsyncResult async = _client.BeginConnect(_address, _port, null, null);
+        Debug.Log("连接服务器中"+ _address+_port);
+        //IAsyncResult async = m_socket.BeginConnect(_address, _port, null, m_socket);
         while (!async.IsCompleted)
         {
-            Debug.Log("连接服务器中");
+            Debug.Log("连接服务器中2");
             yield return null;
         }
         //异常处理
@@ -170,7 +196,7 @@ public static class NetworkClient
                 //发送消息
                 yield return _Write(data);
 
-                Debug.Log("已发送心跳包");
+                Debug.Log("已发送心跳包"+_timer);
             }
             yield return null; //防止死循环
         }
@@ -179,7 +205,10 @@ public static class NetworkClient
     private static IEnumerator _Receive()
     {
         //持续接受消息
+        Debug.Log("持续接受消息啦"+ _curState);
+        sr = new StreamReader(_stream);
         while (_curState == ClientState.Connected)
+        //while(true)
         {
             //解析数据包过程(服务器与客户端需要严格按照一定的协议制定数据包)
             byte[] data = new byte[4];
@@ -188,12 +217,27 @@ public static class NetworkClient
             MessageType type;   //类型
             int receive = 0;    //接收长度
 
+            Debug.Log("异步读取啦" + _curState+ data.Length);
+
             //异步读取
+            TimeSpan timeout = new TimeSpan(0, 0, 10);
+
             IAsyncResult async = _stream.BeginRead(data, 0, data.Length, null, null);
             while (!async.IsCompleted)
             {
+                Debug.Log("等待BeginRead"+ async.IsCompleted);
                 yield return null;
             }
+
+            
+            Debug.Log("异常处理啦" + _curState);
+            //NormalMessageS2C result = ProtoBuffer.DeSerialize<NormalMessageS2C>(data);
+
+            //if (result.ID>=0)
+            //{
+            //    Debug.Log("收到消息啦" + result.ID);
+            //}
+
             //异常处理
             try
             {
@@ -210,6 +254,19 @@ public static class NetworkClient
                 _curState = ClientState.None;
                 Info.Instance.Print("消息包头接收失败", true);
                 yield break;
+            }
+
+            NormalMessageS2C result = ProtoBuffer.DeSerialize<NormalMessageS2C>(data);
+
+            Debug.Log("收到消息啦");
+            if (result.ID > 0)
+            {
+                Info.Instance.Print("收到消息啦", true);
+                //执行回调事件
+                MessageType temp;
+                temp = (MessageType)result.ID;
+                CallBack method = _callBacks[temp];
+                method(data);
             }
 
             using (MemoryStream stream = new MemoryStream(data))
@@ -329,6 +386,29 @@ public static class NetworkClient
         NetworkCoroutine.Instance.StartCoroutine(_Connect()); //(连接ip跟端口号成功不保证网络流建立成功)
     }
 
+    public static void ConnectRead(string address = null, int port = 8849)
+    {
+        //连接上后不能重复连接
+        if (_curState == ClientState.Connected)
+        {
+            Info.Instance.Print("已经连接上服务器 读");
+            return;
+        }
+        if (address == null)
+            address = NetworkUtils.GetLocalIPv4();
+
+        //获取失败则取消连接
+        if (!IPAddress.TryParse(address, out _address))
+        {
+            Info.Instance.Print("IP地址错误, 请重新尝试", true);
+            return;
+        }
+
+        _port = port;
+        //与服务器建立连接
+        NetworkCoroutine.Instance.StartCoroutine(_Connect()); //(连接ip跟端口号成功不保证网络流建立成功)
+    }
+
     /// <summary>
     /// 注册消息回调事件
     /// </summary>
@@ -343,11 +423,12 @@ public static class NetworkClient
     /// <summary>
     /// 加入消息队列
     /// </summary>
-    public static void Enqueue(MessageType type, byte[] data = null)
+    public static void Enqueue(MessageType type, NormalMessageC2S msg)
     {
         //把数据进行封装
         //byte[] bytes = _Pack(type, data);
-
+        msg.ID = Convert.ToInt32(type);
+        byte[] data = ProtoBuffer.Serialize(msg);
         if (_curState == ClientState.Connected)
         {
             //加入队列                                 

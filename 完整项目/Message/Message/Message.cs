@@ -24,28 +24,31 @@ namespace Multiplay {
     static MessageReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg1NZXNzYWdlLnByb3RvEglNdWx0aXBsYXkiSAoNTm9ybWFsTWVzc2FnZRIN",
-            "CgVJTlQzMhgBIAEoBRIMCgRCT09MGAIgASgIEg4KBlNUUklORxgDIAEoCRIK",
-            "CgJJRBgEIAEoBSIjCgZFbnJvbGwSDAoETmFtZRgBIAEoCRILCgNTdWMYAiAB",
-            "KAgiKAoJQ3JlYXRSb29tEg4KBlJvb21JZBgBIAEoBRILCgNTdWMYAiABKAgi",
-            "dgoJRW50ZXJSb29tEg4KBlJvb21JZBgBIAEoBRIrCgZyZXN1bHQYAiABKA4y",
-            "Gy5NdWx0aXBsYXkuRW50ZXJSb29tLlJlc3VsdCIsCgZSZXN1bHQSCAoETm9u",
-            "ZRAAEgoKBlBsYXllchABEgwKCE9ic2VydmVyEAIiJwoIRXhpdFJvb20SDgoG",
-            "Um9vbUlkGAEgASgFEgsKA1N1YxgCIAEoCCJGCglTdGFydEdhbWUSDgoGUm9v",
-            "bUlkGAEgASgFEgsKA1N1YxgCIAEoCBINCgVGaXJzdBgDIAEoCBINCgVXYXRj",
-            "aBgEIAEoCCKFAQoJUGxheUNoZXNzEg4KBlJvb21JZBgBIAEoBRIfCgVDaGVz",
-            "cxgCIAEoDjIQLk11bHRpcGxheS5DaGVzcxIJCgFYGAMgASgFEgkKAVkYBCAB",
-            "KAUSCwoDU3VjGAUgASgIEiQKCkNoYWxsZW5nZXIYBiABKA4yEC5NdWx0aXBs",
-            "YXkuQ2hlc3MqpAEKC01lc3NhZ2VUeXBlEg0KCWVudW1fTm9uZRAAEhIKDmVu",
-            "dW1fSGVhcnRCZWF0EAESDwoLZW51bV9FbnJvbGwQAhISCg5lbnVtX0NyZWF0",
-            "Um9vbRADEhIKDmVudW1fRW50ZXJSb29tEAQSEQoNZW51bV9FeGl0Um9vbRAF",
-            "EhIKDmVudW1fU3RhcnRHYW1lEAYSEgoOZW51bV9QbGF5Q2hlc3MQByo7CgVD",
-            "aGVzcxIICgROb25lEAASCQoFQmxhY2sQARIJCgVXaGl0ZRACEggKBERyYXcQ",
-            "AxIICgROdWxsEARiBnByb3RvMw=="));
+            "Cg1NZXNzYWdlLnByb3RvEglNdWx0aXBsYXkiWAoQTm9ybWFsTWVzc2FnZVMy",
+            "QxINCgVJTlQzMhgBIAEoBRIMCgRCT09MGAIgASgIEg4KBlNUUklORxgDIAEo",
+            "CRIKCgJJRBgEIAEoBRILCgNTMkMYBSABKAgiWAoQTm9ybWFsTWVzc2FnZUMy",
+            "UxINCgVJTlQzMhgBIAEoBRIMCgRCT09MGAIgASgIEg4KBlNUUklORxgDIAEo",
+            "CRIKCgJJRBgEIAEoBRILCgNDMlMYBSABKAgiIwoGRW5yb2xsEgwKBE5hbWUY",
+            "ASABKAkSCwoDU3VjGAIgASgIIigKCUNyZWF0Um9vbRIOCgZSb29tSWQYASAB",
+            "KAUSCwoDU3VjGAIgASgIInYKCUVudGVyUm9vbRIOCgZSb29tSWQYASABKAUS",
+            "KwoGcmVzdWx0GAIgASgOMhsuTXVsdGlwbGF5LkVudGVyUm9vbS5SZXN1bHQi",
+            "LAoGUmVzdWx0EggKBE5vbmUQABIKCgZQbGF5ZXIQARIMCghPYnNlcnZlchAC",
+            "IicKCEV4aXRSb29tEg4KBlJvb21JZBgBIAEoBRILCgNTdWMYAiABKAgiRgoJ",
+            "U3RhcnRHYW1lEg4KBlJvb21JZBgBIAEoBRILCgNTdWMYAiABKAgSDQoFRmly",
+            "c3QYAyABKAgSDQoFV2F0Y2gYBCABKAgihQEKCVBsYXlDaGVzcxIOCgZSb29t",
+            "SWQYASABKAUSHwoFQ2hlc3MYAiABKA4yEC5NdWx0aXBsYXkuQ2hlc3MSCQoB",
+            "WBgDIAEoBRIJCgFZGAQgASgFEgsKA1N1YxgFIAEoCBIkCgpDaGFsbGVuZ2Vy",
+            "GAYgASgOMhAuTXVsdGlwbGF5LkNoZXNzKqQBCgtNZXNzYWdlVHlwZRINCgll",
+            "bnVtX05vbmUQABISCg5lbnVtX0hlYXJ0QmVhdBABEg8KC2VudW1fRW5yb2xs",
+            "EAISEgoOZW51bV9DcmVhdFJvb20QAxISCg5lbnVtX0VudGVyUm9vbRAEEhEK",
+            "DWVudW1fRXhpdFJvb20QBRISCg5lbnVtX1N0YXJ0R2FtZRAGEhIKDmVudW1f",
+            "UGxheUNoZXNzEAcqOwoFQ2hlc3MSCAoETm9uZRAAEgkKBUJsYWNrEAESCQoF",
+            "V2hpdGUQAhIICgREcmF3EAMSCAoETnVsbBAEYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Multiplay.MessageType), typeof(global::Multiplay.Chess), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Multiplay.NormalMessage), global::Multiplay.NormalMessage.Parser, new[]{ "INT32", "BOOL", "STRING", "ID" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Multiplay.NormalMessageS2C), global::Multiplay.NormalMessageS2C.Parser, new[]{ "INT32", "BOOL", "STRING", "ID", "S2C" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Multiplay.NormalMessageC2S), global::Multiplay.NormalMessageC2S.Parser, new[]{ "INT32", "BOOL", "STRING", "ID", "C2S" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Multiplay.Enroll), global::Multiplay.Enroll.Parser, new[]{ "Name", "Suc" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Multiplay.CreatRoom), global::Multiplay.CreatRoom.Parser, new[]{ "RoomId", "Suc" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Multiplay.EnterRoom), global::Multiplay.EnterRoom.Parser, new[]{ "RoomId", "Result" }, null, new[]{ typeof(global::Multiplay.EnterRoom.Types.Result) }, null, null),
@@ -119,16 +122,16 @@ namespace Multiplay {
   #endregion
 
   #region Messages
-  public sealed partial class NormalMessage : pb::IMessage<NormalMessage>
+  public sealed partial class NormalMessageS2C : pb::IMessage<NormalMessageS2C>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<NormalMessage> _parser = new pb::MessageParser<NormalMessage>(() => new NormalMessage());
+    private static readonly pb::MessageParser<NormalMessageS2C> _parser = new pb::MessageParser<NormalMessageS2C>(() => new NormalMessageS2C());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<NormalMessage> Parser { get { return _parser; } }
+    public static pb::MessageParser<NormalMessageS2C> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -144,7 +147,7 @@ namespace Multiplay {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NormalMessage() {
+    public NormalMessageS2C() {
       OnConstruction();
     }
 
@@ -152,18 +155,19 @@ namespace Multiplay {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NormalMessage(NormalMessage other) : this() {
+    public NormalMessageS2C(NormalMessageS2C other) : this() {
       iNT32_ = other.iNT32_;
       bOOL_ = other.bOOL_;
       sTRING_ = other.sTRING_;
       iD_ = other.iD_;
+      s2C_ = other.s2C_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public NormalMessage Clone() {
-      return new NormalMessage(this);
+    public NormalMessageS2C Clone() {
+      return new NormalMessageS2C(this);
     }
 
     /// <summary>Field number for the "INT32" field.</summary>
@@ -214,15 +218,27 @@ namespace Multiplay {
       }
     }
 
+    /// <summary>Field number for the "S2C" field.</summary>
+    public const int S2CFieldNumber = 5;
+    private bool s2C_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public override bool Equals(object other) {
-      return Equals(other as NormalMessage);
+    public bool S2C {
+      get { return s2C_; }
+      set {
+        s2C_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(NormalMessage other) {
+    public override bool Equals(object other) {
+      return Equals(other as NormalMessageS2C);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(NormalMessageS2C other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -233,6 +249,7 @@ namespace Multiplay {
       if (BOOL != other.BOOL) return false;
       if (STRING != other.STRING) return false;
       if (ID != other.ID) return false;
+      if (S2C != other.S2C) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -244,6 +261,7 @@ namespace Multiplay {
       if (BOOL != false) hash ^= BOOL.GetHashCode();
       if (STRING.Length != 0) hash ^= STRING.GetHashCode();
       if (ID != 0) hash ^= ID.GetHashCode();
+      if (S2C != false) hash ^= S2C.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -278,6 +296,10 @@ namespace Multiplay {
         output.WriteRawTag(32);
         output.WriteInt32(ID);
       }
+      if (S2C != false) {
+        output.WriteRawTag(40);
+        output.WriteBool(S2C);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -304,6 +326,10 @@ namespace Multiplay {
         output.WriteRawTag(32);
         output.WriteInt32(ID);
       }
+      if (S2C != false) {
+        output.WriteRawTag(40);
+        output.WriteBool(S2C);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -326,6 +352,9 @@ namespace Multiplay {
       if (ID != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(ID);
       }
+      if (S2C != false) {
+        size += 1 + 1;
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -334,7 +363,7 @@ namespace Multiplay {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(NormalMessage other) {
+    public void MergeFrom(NormalMessageS2C other) {
       if (other == null) {
         return;
       }
@@ -349,6 +378,9 @@ namespace Multiplay {
       }
       if (other.ID != 0) {
         ID = other.ID;
+      }
+      if (other.S2C != false) {
+        S2C = other.S2C;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -379,6 +411,10 @@ namespace Multiplay {
           }
           case 32: {
             ID = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            S2C = input.ReadBool();
             break;
           }
         }
@@ -412,6 +448,347 @@ namespace Multiplay {
             ID = input.ReadInt32();
             break;
           }
+          case 40: {
+            S2C = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class NormalMessageC2S : pb::IMessage<NormalMessageC2S>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<NormalMessageC2S> _parser = new pb::MessageParser<NormalMessageC2S>(() => new NormalMessageC2S());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<NormalMessageC2S> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public NormalMessageC2S() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public NormalMessageC2S(NormalMessageC2S other) : this() {
+      iNT32_ = other.iNT32_;
+      bOOL_ = other.bOOL_;
+      sTRING_ = other.sTRING_;
+      iD_ = other.iD_;
+      c2S_ = other.c2S_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public NormalMessageC2S Clone() {
+      return new NormalMessageC2S(this);
+    }
+
+    /// <summary>Field number for the "INT32" field.</summary>
+    public const int INT32FieldNumber = 1;
+    private int iNT32_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int INT32 {
+      get { return iNT32_; }
+      set {
+        iNT32_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "BOOL" field.</summary>
+    public const int BOOLFieldNumber = 2;
+    private bool bOOL_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool BOOL {
+      get { return bOOL_; }
+      set {
+        bOOL_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "STRING" field.</summary>
+    public const int STRINGFieldNumber = 3;
+    private string sTRING_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string STRING {
+      get { return sTRING_; }
+      set {
+        sTRING_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "ID" field.</summary>
+    public const int IDFieldNumber = 4;
+    private int iD_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int ID {
+      get { return iD_; }
+      set {
+        iD_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "C2S" field.</summary>
+    public const int C2SFieldNumber = 5;
+    private bool c2S_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool C2S {
+      get { return c2S_; }
+      set {
+        c2S_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as NormalMessageC2S);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(NormalMessageC2S other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (INT32 != other.INT32) return false;
+      if (BOOL != other.BOOL) return false;
+      if (STRING != other.STRING) return false;
+      if (ID != other.ID) return false;
+      if (C2S != other.C2S) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (INT32 != 0) hash ^= INT32.GetHashCode();
+      if (BOOL != false) hash ^= BOOL.GetHashCode();
+      if (STRING.Length != 0) hash ^= STRING.GetHashCode();
+      if (ID != 0) hash ^= ID.GetHashCode();
+      if (C2S != false) hash ^= C2S.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (INT32 != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(INT32);
+      }
+      if (BOOL != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(BOOL);
+      }
+      if (STRING.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(STRING);
+      }
+      if (ID != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(ID);
+      }
+      if (C2S != false) {
+        output.WriteRawTag(40);
+        output.WriteBool(C2S);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (INT32 != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(INT32);
+      }
+      if (BOOL != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(BOOL);
+      }
+      if (STRING.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(STRING);
+      }
+      if (ID != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(ID);
+      }
+      if (C2S != false) {
+        output.WriteRawTag(40);
+        output.WriteBool(C2S);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (INT32 != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(INT32);
+      }
+      if (BOOL != false) {
+        size += 1 + 1;
+      }
+      if (STRING.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(STRING);
+      }
+      if (ID != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ID);
+      }
+      if (C2S != false) {
+        size += 1 + 1;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(NormalMessageC2S other) {
+      if (other == null) {
+        return;
+      }
+      if (other.INT32 != 0) {
+        INT32 = other.INT32;
+      }
+      if (other.BOOL != false) {
+        BOOL = other.BOOL;
+      }
+      if (other.STRING.Length != 0) {
+        STRING = other.STRING;
+      }
+      if (other.ID != 0) {
+        ID = other.ID;
+      }
+      if (other.C2S != false) {
+        C2S = other.C2S;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            INT32 = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            BOOL = input.ReadBool();
+            break;
+          }
+          case 26: {
+            STRING = input.ReadString();
+            break;
+          }
+          case 32: {
+            ID = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            C2S = input.ReadBool();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            INT32 = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            BOOL = input.ReadBool();
+            break;
+          }
+          case 26: {
+            STRING = input.ReadString();
+            break;
+          }
+          case 32: {
+            ID = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            C2S = input.ReadBool();
+            break;
+          }
         }
       }
     }
@@ -433,7 +810,7 @@ namespace Multiplay {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -665,7 +1042,7 @@ namespace Multiplay {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -897,7 +1274,7 @@ namespace Multiplay {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1143,7 +1520,7 @@ namespace Multiplay {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1375,7 +1752,7 @@ namespace Multiplay {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1687,7 +2064,7 @@ namespace Multiplay {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Multiplay.MessageReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

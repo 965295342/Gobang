@@ -29,7 +29,9 @@ type SocketService struct {
 }
 
 const (
+	HEART_BEAT  int32 = 0 //心跳
 	CREATE_ROOM int32 = 1 //开房
+	ENROLL      int32 = 2 //注册
 )
 
 const (

@@ -6,7 +6,7 @@ public class Network : MonoBehaviour
 {
     private Network() { }
     public static Network Instance { get; private set; }
-
+    int num = 0;
     /// <summary>
     /// 注册
     /// </summary>
@@ -14,11 +14,13 @@ public class Network : MonoBehaviour
     {
         Enroll request = new Enroll();
         request.Name = name;
-        NormalMessage msg = new NormalMessage();
+        NormalMessageC2S msg = new NormalMessageC2S();
         msg.STRING = name;
+        num++;
         //byte[] data = NetworkUtils.Serialize(request);
-        byte[] data = ProtoBuffer.Serialize(msg);
-        NetworkClient.Enqueue(MessageType.EnumEnroll, data);
+        Info.Instance.Print("发送啦 注册请求"+num, true);
+        NetworkClient.Enqueue(MessageType.EnumEnroll, msg);
+
     }
 
     /// <summary>
@@ -28,10 +30,10 @@ public class Network : MonoBehaviour
     {
         CreatRoom request = new CreatRoom();
         request.RoomId = roomId;
-        NormalMessage msg = new NormalMessage();
+        NormalMessageC2S msg = new NormalMessageC2S();
         msg.INT32 = roomId;
-        byte[] data = ProtoBuffer.Serialize(msg);
-        NetworkClient.Enqueue(MessageType.EnumCreatRoom, data);
+       // byte[] data = ProtoBuffer.Serialize(msg);
+        NetworkClient.Enqueue(MessageType.EnumCreatRoom, msg);
     }
 
     /// <summary>
@@ -41,10 +43,10 @@ public class Network : MonoBehaviour
     {
         EnterRoom request = new EnterRoom();
         request.RoomId = roomId;
-        NormalMessage msg = new NormalMessage();
+        NormalMessageC2S msg = new NormalMessageC2S();
         msg.INT32 = roomId;
-        byte[] data = ProtoBuffer.Serialize(msg);
-        NetworkClient.Enqueue(MessageType.EnumEnterRoom, data);
+        //byte[] data = ProtoBuffer.Serialize(msg);
+        NetworkClient.Enqueue(MessageType.EnumEnterRoom, msg);
     }
 
     /// <summary>
@@ -54,10 +56,10 @@ public class Network : MonoBehaviour
     {
         ExitRoom request = new ExitRoom();
         request.RoomId = roomId;
-        NormalMessage msg = new NormalMessage();
+        NormalMessageC2S msg = new NormalMessageC2S();
         msg.INT32 = roomId;
-        byte[] data = ProtoBuffer.Serialize(msg);
-        NetworkClient.Enqueue(MessageType.EnumExitRoom, data);
+        //byte[] data = ProtoBuffer.Serialize(msg);
+        NetworkClient.Enqueue(MessageType.EnumExitRoom, msg);
     }
 
     /// <summary>
@@ -67,10 +69,10 @@ public class Network : MonoBehaviour
     {
         StartGame request = new StartGame();
         request.RoomId = roomId;
-        NormalMessage msg = new NormalMessage();
+        NormalMessageC2S msg = new NormalMessageC2S();
         msg.INT32 = roomId;
-        byte[] data = ProtoBuffer.Serialize(msg);
-        NetworkClient.Enqueue(MessageType.EnumStartGame, data);
+        //byte[] data = ProtoBuffer.Serialize(msg);
+        NetworkClient.Enqueue(MessageType.EnumStartGame, msg);
     }
 
     /// <summary>
@@ -88,8 +90,8 @@ public class Network : MonoBehaviour
         request.Chess = NetworkPlayer.Instance.Chess;
         request.X = pos.X;
         request.Y = pos.Y;
-        byte[] data = ProtoBuffer.Serialize(request);
-        NetworkClient.Enqueue(MessageType.EnumPlayChess, data);
+        //byte[] data = ProtoBuffer.Serialize(request);
+        //NetworkClient.Enqueue(MessageType.EnumPlayChess, msg);
     }
 
     private void Start()
@@ -116,10 +118,11 @@ public class Network : MonoBehaviour
     private void _Enroll(byte[] data)
     {
         //Enroll result = NetworkUtils.Deserialize<Enroll>(data);
-        Enroll result = ProtoBuffer.DeSerialize<Enroll>(data);
-        if (result.Suc)
+        // Enroll result = ProtoBuffer.DeSerialize<Enroll>(data);
+        NormalMessageS2C result = ProtoBuffer.DeSerialize<NormalMessageS2C>(data);
+        if (result.BOOL)
         {
-            NetworkPlayer.Instance.OnNameChange(result.Name);
+            NetworkPlayer.Instance.OnNameChange(result.STRING);
 
             Info.Instance.Print("注册成功");
         }

@@ -8,20 +8,19 @@ import (
 	"time"
 )
 
-var CallBackMap map[int32]func(*def.Message)
-
-type Player struct {
-	id int32
-}
+var CallBackMap map[int32]func(*def.NormalMessageC2S)
+var SendStack [][]byte
 
 func init() {
-	CallBackMap = make(map[int32]func(*def.Message))
+	CallBackMap = make(map[int32]func(*def.NormalMessageC2S))
 	if CallBackMap == nil {
 		fmt.Errorf("CallBack Init Error")
 	}
+	SendStack = make([][]byte, 0)
+	def.MYIP = "127.0.0.1"
 }
 
-func Register(messageType int32, hanlder func(*def.Message)) {
+func Register(messageType int32, hanlder func(*def.NormalMessageC2S)) {
 	if CallBackMap[messageType] != nil {
 		fmt.Println("Message has registered", messageType)
 	} else {
@@ -30,13 +29,11 @@ func Register(messageType int32, hanlder func(*def.Message)) {
 	}
 }
 
-func NewSocketService() (*def.SocketService, error) {
-	var host string = ":8848"
+func NewSocketService(host string) (*def.SocketService, error) {
 	l, err := net.Listen("tcp", host)
 	if err != nil {
 		return nil, err
 	}
-
 	s := &def.SocketService{
 		Sessions:   &sync.Map{},
 		StopCh:     make(chan error),
@@ -51,8 +48,9 @@ func NewSocketService() (*def.SocketService, error) {
 }
 
 func Send(MessageType int32, data []byte) {
-	var host string = ":8848"
-	conn, err := net.Dial("tcp", def.MYIP+host)
+	host := ":8849"
+	myAddress := def.MYIP + host
+	conn, err := net.Dial("tcp", myAddress)
 	if err != nil {
 		fmt.Errorf("连接失败:", err)
 	}
@@ -63,6 +61,7 @@ func Send(MessageType int32, data []byte) {
 		return
 	}
 	fmt.Printf("一共发送了%d个字节的数据\n", n)
+	SendStack = append(SendStack, data)
 }
 
 // buf := bytes.Buffer{}

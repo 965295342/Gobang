@@ -73,20 +73,24 @@ public class NetworkUIEvent : MonoBehaviour
     private void _ConnectServerBtn()
     {
         if (_ipAddressIpt.text != string.Empty)
+        {
             NetworkClient.Connect(_ipAddressIpt.text);
+           // NetworkClient.ConnectRead(_ipAddressIpt.text);
+        }
         else
         {
             Info.Instance.Print("IP地址不能为空");
         }
     }
-
+    int num=0;
     private void _EnrollBtn()
     {
+        num++;
         if (_nameIpt.text != string.Empty)
             Network.Instance.EnrollRequest(_nameIpt.text);
         else
         {
-            Info.Instance.Print("名字不能为空");
+            Info.Instance.Print("名字不能为空"+num);
         }
     }
 
