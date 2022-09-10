@@ -23,7 +23,7 @@ func main() {
 	if err != nil {
 		log.Println(err)
 	}
-	testsSend()
+	//testsSend()
 	for {
 		//等待客户的连接?
 		conn, err := SocketService.Listener.Accept()

@@ -1,0 +1,41 @@
+syntax = "proto3";
+package def;
+option go_package = "./";
+ message Message
+ {
+    int32 id = 1;
+    repeated int32 I32 = 2;
+    string words = 3;
+ }
+
+ message Enroll
+{
+    string Name = 1;//姓名
+    bool Suc = 2;   //是否成功
+}
+
+message NormalMessageC2S
+{
+
+    int32 INT32 = 1;
+    bool  BOOL = 2;
+    string STRING = 3;
+    int32 ID = 4;
+    bool C2S = 5;
+}
+
+message NormalMessageS2C
+{
+
+    int32 INT32 = 1;
+    bool  BOOL = 2;
+    string STRING = 3;
+    int32 ID = 4;
+    bool S2C = 5;
+}
+
+message Player
+{
+    string name = 1;
+    string room = 2;
+}
